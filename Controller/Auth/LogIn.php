@@ -45,10 +45,10 @@ class Login extends \Twitter\Controller\SessionController {
 
     // ログイン完了状態
     $_SESSION["user"] = array(
-      $user["u_id"],
-      $user["u_name"],
-      $user["u_email"],
-      $user["u_thumb"],
+      "id" => $user["u_id"],
+      "name" => $user["u_name"],
+      "email" => $user["u_email"],
+      "thumb" => $user["u_thumb"],
     );
 
     // ログインが完了したらトップ画面に遷移
