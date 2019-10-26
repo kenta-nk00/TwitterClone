@@ -1,0 +1,62 @@
+body {
+  font-family: "Arial", "メイリオ";
+  font-size: 18px;
+  background: #ddd;
+}
+
+#container {
+  width: 400px;
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 15px;
+  background: #fff;
+}
+
+label, input {
+  display: block;
+  background-color: #eee;
+}
+
+label {
+  font-size: 14px;
+}
+
+label:not(:first-of-type) {
+  margin-top: 40px;
+}
+
+label:focus-within {
+  color: #49f;
+}
+
+.input_text:focus {
+  outline: 0;
+  border-bottom: 2px solid #49f;
+}
+
+.input_text {
+  width: 100%;
+  height: 30px;
+  border-bottom: 2px solid #888;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  font-size: 18px;
+}
+
+.submit_button {
+  width: 100%;
+  height: 50px;
+  margin-top: 60px;
+  font-size: 18px;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: #49f;
+}
+
+.err {
+  font-size: 14px;
+  color: #e44;
+  margin: 0px;
+}
