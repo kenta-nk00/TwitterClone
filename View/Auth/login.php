@@ -29,7 +29,7 @@ $app->run();
 
       <input type="hidden" value="<?php echo h($_SESSION["token"]); ?>" name="token">
 
-      <p><input type="submit" value="ログイン" class="submit_button"></p>
+      <input type="submit" value="ログイン" class="submit_button">
     </form>
   </div>
 </body>

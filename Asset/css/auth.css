@@ -2,6 +2,8 @@ body {
   font-family: "Arial", "メイリオ";
   font-size: 18px;
   background: #ddd;
+  padding: 0;
+  margin: 0;
 }
 
 #container {
@@ -51,8 +53,13 @@ label:focus-within {
   font-size: 18px;
   border: none;
   border-radius: 15px;
-  color: white;
+  color: #fff;
   background-color: #49f;
+}
+
+.submit_button:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .err {
