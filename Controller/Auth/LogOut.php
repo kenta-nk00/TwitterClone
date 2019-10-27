@@ -2,9 +2,7 @@
 
 namespace Twitter\Controller\Auth;
 
-require_once(__DIR__ . "/validate.php");
-
-class LogOut extends \Twitter\Controller\SessionController {
+class LogOut extends \Twitter\Controller\Auth\AuthController {
 
   public function run() {
 
@@ -45,7 +43,7 @@ class LogOut extends \Twitter\Controller\SessionController {
   // フォーム送信内容チェック
   private function validate() {
     try {
-      tokenValidate();
+      $this->tokenValidate();
     } catch(\Twitter\Exception\InvalidToken $e) {
       $this->setErrors("token", $e->getMessage());
     }

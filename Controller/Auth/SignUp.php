@@ -2,9 +2,7 @@
 
 namespace Twitter\Controller\Auth;
 
-require_once(__DIR__ . "/validate.php");
-
-class SignUp extends \Twitter\Controller\SessionController {
+class SignUp extends \Twitter\Controller\Auth\AuthController {
 
   public function run() {
 
@@ -48,13 +46,13 @@ class SignUp extends \Twitter\Controller\SessionController {
   // フォーム送信内容チェック
   private function validate() {
     try {
-      tokenValidate();
+      $this->tokenValidate();
     } catch(\Twitter\Exception\InvalidToken $e) {
       $this->setErrors("token", $e->getMessage());
     }
 
     try {
-      nameValidate();
+      $this->nameValidate();
     } catch(\Twitter\Exception\EmptyName $e) {
       $this->setErrors("name", $e->getMessage());
     } catch(\Twitter\Exception\InvalidName $e) {
@@ -62,7 +60,7 @@ class SignUp extends \Twitter\Controller\SessionController {
     }
 
     try {
-      emailValidate();
+      $this->emailValidate();
     } catch(\Twitter\Exception\EmptyEmail $e) {
       $this->setErrors("email", $e->getMessage());
     } catch(\Twitter\Exception\InvalidEmail $e) {
@@ -70,7 +68,7 @@ class SignUp extends \Twitter\Controller\SessionController {
     }
 
     try {
-      passwordValidate();
+      $this->passwordValidate();
     } catch(\Twitter\Exception\EmptyPassword $e) {
       $this->setErrors("password", $e->getMessage());
     } catch(\Twitter\Exception\InvalidPassword $e) {

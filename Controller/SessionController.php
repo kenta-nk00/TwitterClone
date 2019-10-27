@@ -7,13 +7,22 @@ class SessionController {
   public $_errors;
 
   public function __construct() {
+    $this->generateToken();
 
+    $this->_errors = Array();
+  }
+
+  protected function generateToken() {
     // CSRFトークン生成
     if (!isset($_SESSION['token'])) {
         $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(16));
     }
+  }
 
-    $this->_errors = Array();
+  protected function tokenValidate() {
+    if(!isset($_POST["token"]) || $_POST["token"] !== $_SESSION["token"]) {
+      throw new \Twitter\Exception\InvalidToken();
+    }
   }
 
   // ログイン中状態をセッション変数"user"で表す

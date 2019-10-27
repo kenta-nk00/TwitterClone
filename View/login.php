@@ -12,10 +12,10 @@ $app->run();
 <head>
   <meta charset="utf-8">
   <title>ログイン</title>
-  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/auth.css">
 </head>
 <body>
-  
+
   <div id="container">
     <p><strong>TwitterCloneにログイン</strong></p>
     <form action="" method="post">

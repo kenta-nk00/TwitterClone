@@ -12,7 +12,7 @@ $app->run();
 <head>
   <meta charset="utf-8">
   <title>会員登録</title>
-  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/auth.css">
 </head>
 <body>
 
