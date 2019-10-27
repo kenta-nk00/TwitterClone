@@ -49,8 +49,8 @@ class Login extends \Twitter\Controller\Auth\AuthController {
       "thumb" => $user["u_thumb"],
     );
 
-    // ログインが完了したらトップ画面に遷移
-    header("Location: " . SITE_URL);
+    // ログインが完了したらホーム画面に遷移
+    header("Location: " . SITE_URL . "/View/Main/home.php");
     exit;
   }
 

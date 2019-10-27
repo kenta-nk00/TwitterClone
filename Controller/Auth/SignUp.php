@@ -39,7 +39,7 @@ class SignUp extends \Twitter\Controller\Auth\AuthController {
     }
 
     // 登録が完了したらログイン画面に遷移
-    header("Location: " . SITE_URL . "/View/login.php");
+    header("Location: " . SITE_URL . "/View/Auth/login.php");
     exit;
   }
 

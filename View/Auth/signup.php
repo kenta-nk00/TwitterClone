@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../Lib/config.php");
+require_once(__DIR__ . "/../../Lib/config.php");
 
 $app = new Twitter\Controller\Auth\SignUp();
 $app->run();
@@ -12,7 +12,7 @@ $app->run();
 <head>
   <meta charset="utf-8">
   <title>会員登録</title>
-  <link rel="stylesheet" href="./css/auth.css">
+  <link rel="stylesheet" href="../../Asset/css/auth.css">
 </head>
 <body>
 
