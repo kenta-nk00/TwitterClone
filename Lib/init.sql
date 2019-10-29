@@ -9,3 +9,13 @@ create table users (
   u_password varchar(255),
   u_thumb varchar(255)
 );
+
+create table posts (
+  p_id int unsigned not null auto_increment primary key,
+  p_user_id int unsigned,
+  p_text varchar(140),
+  p_img varchar(255),
+  p_comment int unsigned default 0,
+  p_like int unsigned default 0,
+  p_date datetime
+);

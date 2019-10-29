@@ -9,7 +9,7 @@ class AuthController extends \Twitter\Controller\SessionController {
       throw new \Twitter\Exception\EmptyName();
     }
 
-    if(strlen($_POST['name']) > MAX_CHAR) {
+    if(strlen($_POST['name']) > MAX_CHAR_LENGTH) {
       throw new \Twitter\Exception\InvalidName();
     }
   }
@@ -19,7 +19,7 @@ class AuthController extends \Twitter\Controller\SessionController {
       throw new \Twitter\Exception\EmptyEmail();
     }
 
-    if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || strlen($_POST['email']) > MAX_CHAR) {
+    if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || strlen($_POST['email']) > MAX_CHAR_LENGTH) {
       throw new \Twitter\Exception\InvalidEmail();
     }
   }

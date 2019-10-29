@@ -6,22 +6,26 @@ class LogOut extends \Twitter\Controller\Auth\AuthController {
 
   public function run() {
 
-    // ログインしていなければトップページに遷移
-    if(!$this->isLoggedIn()) {
+    // ログインしていなければトップに遷移
+    if(!isset($_SESSION["user"])) {
       header("Location: " . SITE_URL);
       exit;
     }
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->postProcess();
+    } else {
+      header("Location: " . SITE_URL . "/View/Main/home.php");
+      exit;
     }
+
   }
 
   private function postProcess() {
     $this->validate();
 
     if($this->hasError()) {
-      return;
+      retun;
     }
 
     // セッション変数削除

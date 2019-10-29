@@ -13,9 +13,10 @@ class User {
       echo $e->getMessage();
       exit;
     }
+
   }
 
-  // ユーザー登録処理
+  // サインアップ処理
   public function signUp($values) {
     $sql = "insert into users(u_name, u_email, u_password) values(:name, :email, :password)";
     $stmt = $this->db->prepare($sql);
@@ -53,6 +54,32 @@ class User {
     }
 
     return $user;
+  }
+
+  // ツイート投稿処理
+  public function sendTweet($values) {
+    $sql = "insert into posts(p_user_id, p_text, p_img, p_date) values(:user_id, :text, :img, now())";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $values["user_id"],
+      ":text" => $values["text"],
+      ":img" => $values["img"],
+    ]);
+  }
+
+  // 全ツイート取得処理
+  public function getTweets() {
+    $sql = "select * from posts order by p_id";
+    $stmt = $this->db->query($sql);
+
+    $posts = "";
+
+    if($stmt) {
+      $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    return $posts;
   }
 
 }

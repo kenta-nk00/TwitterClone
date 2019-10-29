@@ -5,9 +5,9 @@ namespace Twitter\Controller\Auth;
 class Login extends \Twitter\Controller\Auth\AuthController {
 
   public function run() {
-    // ログインしていればトップページに遷移
-    if($this->isLoggedIn()) {
-      header("Location: " . SITE_URL);
+    // ログインしていればホーム画面に遷移
+    if(isset($_SESSION["user"])) {
+      header("Location: " . SITE_URL . "/View/Main/home.php");
       exit;
     }
 

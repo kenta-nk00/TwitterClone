@@ -1,10 +1,21 @@
+<?php
+
+require_once(__DIR__ . "/../../Lib/config.php");
+
+isLogin();
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <title>ホーム</title>
-  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" href="../../Asset/css/home.css">
+  <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="../../Asset/js/home.js"></script>
+
 </head>
 <body>
   <div id="container">
@@ -14,7 +25,7 @@
     </div>
 
     <div class="title">
-      <p>タイトル</p>
+      <p><strong>ホーム</strong></p>
     </div>
 
     <div class="search">
@@ -24,35 +35,50 @@
     <div class="action_bar">
       <ul>
         <li>
-          <form action="" method="post" class="action_item">
-            <i class="fas fa-home action_icon"></i>
-            <input type="submit" value="ホーム" class="action_button">
+          <form action="" type="post" class="action_item">
+            <button  type="button" class="action_button home_button">ホーム</button>
           </form>
         </li>
 
         <li>
-          <form action="" method="post" class="action_item">
-            <i class="fas fa-envelope action_icon"></i>
-            <input type="submit" value="メッセージ" class="action_button">
+          <form action="" type="post" class="action_item">
+            <button  type="button" class="action_button message_button">メッセージ</button>
           </form>
         </li>
 
         <li>
-          <form action="" method="post" class="action_item">
-            <i class="fas fa-user action_icon"></i>
-            <input type="submit" value="プロフィール" class="action_button">
+          <form action="" type="post" class="action_item">
+            <button type="button" class="action_button profile_button">プロフィール</button>
           </form>
         </li>
-
       </ul>
     </div>
 
     <div class="post">
-      <p>投稿</p>
+      <input type="text" name="text" placeholder="いまどうしてる？" id="tweet_text">
+      <button　type="button" id="tweet_button">ツイート</button>
+
+      <script>
+        document.getElementById("tweet_button").addEventListener('click', function() {
+          const token = "<?php echo h($_SESSION['token']); ?>"
+          const sendid = "<?php echo h(REQUEST_SEND_POST); ?>"
+          const getid = "<?php echo h(REQUEST_GET_POST); ?>"
+          const text = document.getElementById("tweet_text").value;
+          sendPost(token, sendid, getid, text);
+        });
+      </script>
+
     </div>
 
     <div class="post_list">
-      <p>投稿一覧</p>
+      <ul id="post_root_ul">
+      </ul>
+
+      <script>
+        const token = "<?php echo h($_SESSION['token']); ?>"
+        const id = "<?php echo h(REQUEST_GET_POST); ?>"
+        getPosts(token, id);
+      </script>
     </div>
 
     <div class="recommed">
