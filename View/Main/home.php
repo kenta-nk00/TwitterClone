@@ -64,6 +64,7 @@ isLogin();
           const sendid = "<?php echo h(REQUEST_SEND_POST); ?>"
           const getid = "<?php echo h(REQUEST_GET_POST); ?>"
           const text = document.getElementById("tweet_text").value;
+          document.getElementById("tweet_text").value = "";
           sendPost(token, sendid, getid, text);
         });
       </script>

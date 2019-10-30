@@ -47,7 +47,7 @@ function reloadPosts(posts) {
 
     const post_name = document.createElement("div");
     post_name.classList.add("post_name");
-    post_name.textContent = posts[i].p_user_id;
+    post_name.textContent = posts[i].u_name;
 
     const post_text = document.createElement("div");
     post_text.classList.add("post_text");

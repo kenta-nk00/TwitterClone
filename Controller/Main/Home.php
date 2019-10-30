@@ -55,7 +55,8 @@ class Home extends \Twitter\Controller\SessionController {
     $user = $userModel->sendTweet(array(
       "user_id" => $_SESSION["user"]["id"],
       "text" => $_POST["text"],
-      "img" => empty($_POST["img"]) ? null : $_POST["img"]
+      "img" => empty($_POST["img"]) ? null : $_POST["img"],
+      "date" => date("Y/m/d H:i:s")
     ));
   }
 

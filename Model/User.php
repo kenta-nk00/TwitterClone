@@ -58,19 +58,20 @@ class User {
 
   // ツイート投稿処理
   public function sendTweet($values) {
-    $sql = "insert into posts(p_user_id, p_text, p_img, p_date) values(:user_id, :text, :img, now())";
+    $sql = "insert into posts(p_user_id, p_text, p_img, p_date) values(:user_id, :text, :img, :date)";
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
       ":user_id" => $values["user_id"],
       ":text" => $values["text"],
       ":img" => $values["img"],
+      ":date" => $values["date"]
     ]);
   }
 
   // 全ツイート取得処理
   public function getTweets() {
-    $sql = "select * from posts order by p_id";
+    $sql = "select u_name, p_text, p_img, p_comment, p_like, p_date, u_thumb  from posts inner join users on posts.p_user_id = users.u_id order by p_id desc";
     $stmt = $this->db->query($sql);
 
     $posts = "";
