@@ -2,7 +2,7 @@
 
 namespace Twitter\Controller\Main;
 
-class Home extends \Twitter\Controller\SessionController {
+class Main extends \Twitter\Controller\SessionController {
 
   public function run() {
 
@@ -31,8 +31,11 @@ class Home extends \Twitter\Controller\SessionController {
       case REQUEST_SEND_POST:
         $this->sendPost();
         break;
-      case REQUEST_GET_POST:
-        $this->getPosts();
+      case REQUEST_GET_ALL_POST:
+        $this->getAllPost();
+        break;
+      case REQUEST_GET_SELF_POST:
+        $this->getSelfPost();
         break;
     }
   }
@@ -60,10 +63,19 @@ class Home extends \Twitter\Controller\SessionController {
     ));
   }
 
-  private function getPosts() {
+  private function getAllPost() {
     $userModel = new \Twitter\Model\User();
 
-    $user = $userModel->getTweets();
+    $user = $userModel->getAllPost();
+
+    header("conten-type: application/json; charset=utf8");
+    echo json_encode($user);
+  }
+
+  private function getSelfPost() {
+    $userModel = new \Twitter\Model\User();
+
+    $user = $userModel->getSelfPost();
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);

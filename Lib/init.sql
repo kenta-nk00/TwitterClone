@@ -7,7 +7,8 @@ create table users (
   u_name varchar(255),
   u_email varchar(255) unique,
   u_password varchar(255),
-  u_thumb varchar(255)
+  u_icon varchar(255),
+  u_background varchar(255)
 );
 
 create table posts (

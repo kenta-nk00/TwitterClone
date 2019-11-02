@@ -43,10 +43,7 @@ class Login extends \Twitter\Controller\Auth\AuthController {
 
     // ログイン完了状態
     $_SESSION["user"] = array(
-      "id" => $user["u_id"],
-      "name" => $user["u_name"],
-      "email" => $user["u_email"],
-      "thumb" => $user["u_thumb"],
+      "id" => $user["u_id"]
     );
 
     // ログインが完了したらホーム画面に遷移

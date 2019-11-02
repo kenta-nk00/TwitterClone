@@ -70,13 +70,31 @@ class User {
   }
 
   // 全ツイート取得処理
-  public function getTweets() {
-    $sql = "select u_name, p_text, p_img, p_comment, p_like, p_date, u_thumb  from posts inner join users on posts.p_user_id = users.u_id order by p_id desc";
+  public function getAllPost() {
+    $sql = "select u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id order by p_id desc";
     $stmt = $this->db->query($sql);
 
     $posts = "";
 
     if($stmt) {
+      $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    return $posts;
+  }
+
+  // 自ツイート取得処理
+  public function getSelfPost() {
+    $sql = "select u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id and posts.p_user_id = :user_id order by p_id desc";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $_SESSION["user"]["id"]
+    ]);
+
+    $posts = "";
+
+    if($result) {
       $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 

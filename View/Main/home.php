@@ -14,7 +14,7 @@ isLogin();
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" href="../../Asset/css/home.css">
   <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="../../Asset/js/home.js"></script>
+  <script type="text/javascript" src="../../Asset/js/main.js"></script>
 
 </head>
 <body>
@@ -25,7 +25,7 @@ isLogin();
     </div>
 
     <div class="title">
-      <p><strong>ホーム</strong></p>
+      <p>ホーム</p>
     </div>
 
     <div class="search">
@@ -35,26 +35,27 @@ isLogin();
     <div class="action_bar">
       <ul>
         <li>
-          <form action="" type="post" class="action_item">
-            <button  type="button" class="action_button home_button">ホーム</button>
+          <form action="./home.php" type="post" class="action_item">
+            <button class="action_button home_button">ホーム</button>
           </form>
         </li>
 
         <li>
           <form action="" type="post" class="action_item">
-            <button  type="button" class="action_button message_button">メッセージ</button>
+            <button class="action_button message_button">メッセージ</button>
           </form>
         </li>
 
         <li>
-          <form action="" type="post" class="action_item">
-            <button type="button" class="action_button profile_button">プロフィール</button>
+          <form action="./profile.php" type="post" class="action_item">
+            <button class="action_button profile_button">プロフィール</button>
           </form>
         </li>
       </ul>
     </div>
 
     <div class="post">
+      <div class="user_icon"></div>
       <input type="text" name="text" placeholder="いまどうしてる？" id="tweet_text">
       <button　type="button" id="tweet_button">ツイート</button>
 
@@ -62,7 +63,7 @@ isLogin();
         document.getElementById("tweet_button").addEventListener('click', function() {
           const token = "<?php echo h($_SESSION['token']); ?>"
           const sendid = "<?php echo h(REQUEST_SEND_POST); ?>"
-          const getid = "<?php echo h(REQUEST_GET_POST); ?>"
+          const getid = "<?php echo h(REQUEST_GET_ALL_POST); ?>"
           const text = document.getElementById("tweet_text").value;
           document.getElementById("tweet_text").value = "";
           sendPost(token, sendid, getid, text);
@@ -77,12 +78,12 @@ isLogin();
 
       <script>
         const token = "<?php echo h($_SESSION['token']); ?>"
-        const id = "<?php echo h(REQUEST_GET_POST); ?>"
-        getPosts(token, id);
+        const id = "<?php echo h(REQUEST_GET_ALL_POST); ?>"
+        getAllPost(token, id);
       </script>
     </div>
 
-    <div class="recommed">
+    <div class="recommend">
       <p>おすすめ</p>
     </div>
 

@@ -11,7 +11,6 @@ require_once(__DIR__ . "/Lib/config.php");
   <title>トップ</title>
 </head>
 <body>
-  <p>こんにちは　<?php echo h($_SESSION['user']["name"]); ?> さん</p>
   <a href="./View/Auth/signup.php">signup</a>
   <a href="./View/Auth/login.php">login</a>
 

@@ -1,14 +1,18 @@
 body {
+  width: 100vw;
+  height: 100vh;
   font-family: "Arial", "メイリオ";
   font-size: 18px;
   background: #ddd;
   padding: 0;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #container {
   width: 400px;
-  margin: 30px auto;
   padding: 30px;
   border-radius: 15px;
   background: #fff;

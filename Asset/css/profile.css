@@ -1,0 +1,232 @@
+@import url("./main.css");
+
+#container {
+  grid-template-rows: 50px  400px 1fr;
+}
+
+.profile_button {
+  color: rgba(40, 164, 252, 1.0);
+}
+
+.profile {
+  grid-row: 2 / 3;
+  grid-column: 3 / 4;
+  display: grid;
+  grid-template-rows: 100px 50px 50px 1fr;
+  grid-template-columns: 100px 1fr 150px;
+  grid-gap: 1px;
+}
+
+.user_background {
+  grid-row: 1 / 3;
+  grid-column: 1 / 4;
+  background: #eee;
+}
+
+.user_icon {
+  grid-row: 2 / 4;
+  grid-column: 1 / 2;
+  width: 100px;
+  height: 100px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #eee;
+}
+
+#edit_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row: 3 / 4;
+  grid-column: 3 / 4;
+  margin: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 25px;
+  border: 1px solid  rgba(68, 152, 255, 1.0);
+  color: rgba(68, 152, 255, 0.8);
+  background: #fff;
+}
+
+#edit_button:hover {
+  cursor: pointer;
+  background: rgba(68, 152, 255, 0.1);
+}
+
+.user_profile {
+  grid-row: 4 / 5;
+  grid-column: 1 / 4;
+  background: #eee;
+}
+
+/* モーダルウィンドウ */
+
+#mask {
+  display: none;
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#modal {
+  display: none;
+  width: 500px;
+  margin: 0 auto;
+  padding: 3px;
+  border-radius: 20px;
+  background: #fff;;
+  position: fixed;
+  top: 50px;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#edit_form {
+  display: grid;
+  grid-template-rows: 50px 100px 50px 50px 1fr;
+  grid-template-columns: 100px 1fr;
+}
+
+.edit_header {
+  grid-row: 1 / 2;
+  grid-column: 1 / 3;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 100px;
+}
+
+.edit_header > p {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  margin-left: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  align-self: center;
+  font-weight: bold;
+}
+
+.edit_header > input[type="submit"] {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  align-self: center;
+  font-size: 18px;
+  padding: 5px;
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+  background: rgba(68, 152, 255, 0.8);
+}
+
+.edit_header > input[type="submit"]:hover {
+  cursor: pointer;
+  color: #eee;
+  background-color: rgba(68, 152, 255, 1.0);
+}
+
+.edit_background {
+  grid-row: 2 / 4;
+  grid-column: 1 / 3;
+  background: #eee;
+}
+
+.edit_background > label {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit_background > label:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.edit_background > label:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 24px;
+  content: "\f030";
+}
+
+.background_img {
+  display: none;
+}
+
+.edit_icon {
+  grid-row: 3 / 5;
+  grid-column: 1 / 2;
+  align-self: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background: #eee;
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+.edit_icon > label {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit_icon > label:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.edit_icon > label:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 24px;
+  content: "\f030";
+}
+
+.icon_img {
+  display: none;
+}
+
+.edit_text {
+  grid-row: 5 / 6;
+  grid-column: 1 / 3;
+  padding: 10px;
+}
+
+.edit_text > p {
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+.text_label {
+  display: block;
+  background-color: #eee;
+  font-size: 14px;
+}
+
+.text_label:focus-within {
+  color: #49f;
+}
+
+.input_text {
+  width: 100%;
+  height: 30px;
+  border-bottom: 2px solid #888;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  font-size: 18px;
+  background: #eee;
+}
+
+.input_text:focus {
+  outline: 0;
+  border-bottom: 2px solid #49f;
+}
