@@ -2,7 +2,7 @@
 
 function sendPost(token, sendid, getid, text) {
   $.ajax( {
-    url : "../../Controller/Main/Main_Ajax.php",
+    url : "../../Controller/Main/Main_Accept.php",
     type : "POST",
     data : {
       token : token,
@@ -20,7 +20,7 @@ function sendPost(token, sendid, getid, text) {
 
 function getAllPost(token, id) {
   $.ajax( {
-    url : "../../Controller/Main/Main_Ajax.php",
+    url : "../../Controller/Main/Main_Accept.php",
     type : "POST",
     data : {
       token : token ,
@@ -39,7 +39,7 @@ function getAllPost(token, id) {
 
 function getSelfTweets(token, id) {
   $.ajax( {
-    url : "../../Controller/Main/Main_Ajax.php",
+    url : "../../Controller/Main/Main_Accept.php",
     type : "POST",
     data : {
       token : token ,

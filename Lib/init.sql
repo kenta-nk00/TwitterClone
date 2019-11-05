@@ -6,6 +6,7 @@ create table users (
   u_id int unsigned not null auto_increment primary key,
   u_name varchar(255),
   u_email varchar(255) unique,
+  u_profile varchar(255),
   u_password varchar(255),
   u_icon varchar(255),
   u_background varchar(255)

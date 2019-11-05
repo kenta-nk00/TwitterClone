@@ -61,7 +61,7 @@ class User {
     $sql = "insert into posts(p_user_id, p_text, p_img, p_date) values(:user_id, :text, :img, :date)";
     $stmt = $this->db->prepare($sql);
 
-    $result = $stmt->execute([
+    $stmt->execute([
       ":user_id" => $values["user_id"],
       ":text" => $values["text"],
       ":img" => $values["img"],
@@ -89,7 +89,7 @@ class User {
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
-      ":user_id" => $_SESSION["user"]["id"]
+      ":user_id" => $_SESSION["user_id"]
     ]);
 
     $posts = "";
@@ -101,4 +101,16 @@ class User {
     return $posts;
   }
 
+  public function editProfile($values) {
+    $sql = "update users set u_name=:name, u_profile=:profile, u_icon=:icon, u_background=:background where u_id=:user_id";
+    $stmt = $this->db->prepare($sql);
+
+    $stmt->execute([
+      ":user_id" => $values["user_id"],
+      ":name" => $values["name"],
+      ":profile" => $values["profile"],
+      ":icon" => $values["icon"],
+      ":background" => $values["background"]
+    ]);
+  }
 }

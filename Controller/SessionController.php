@@ -10,13 +10,7 @@ class SessionController {
 
     $this->_errors = Array();
   }
-
-  protected function tokenValidate() {
-    if(!isset($_POST["token"]) || $_POST["token"] !== $_SESSION["token"]) {
-      throw new \Twitter\Exception\InvalidToken();
-    }
-  }
-
+  
   protected function setErrors($key, $message) {
     $this->_errors[$key] = $message;
   }

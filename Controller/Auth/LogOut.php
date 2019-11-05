@@ -2,12 +2,11 @@
 
 namespace Twitter\Controller\Auth;
 
-class LogOut extends \Twitter\Controller\Auth\AuthController {
+class LogOut extends \Twitter\Controller\SessionController {
 
   public function run() {
-
     // ログインしていなければトップに遷移
-    if(!isset($_SESSION["user"])) {
+    if(!isset($_SESSION["user_id"])) {
       header("Location: " . SITE_URL);
       exit;
     }
@@ -18,7 +17,6 @@ class LogOut extends \Twitter\Controller\Auth\AuthController {
       header("Location: " . SITE_URL . "/View/Main/home.php");
       exit;
     }
-
   }
 
   private function postProcess() {
@@ -47,7 +45,7 @@ class LogOut extends \Twitter\Controller\Auth\AuthController {
   // フォーム送信内容チェック
   private function validate() {
     try {
-      $this->tokenValidate();
+      tokenValidate();
     } catch(\Twitter\Exception\InvalidToken $e) {
       $this->setErrors("token", $e->getMessage());
     }

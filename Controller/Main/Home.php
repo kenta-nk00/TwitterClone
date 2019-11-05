@@ -38,9 +38,6 @@ class Main extends \Twitter\Controller\SessionController {
       case REQUEST_GET_SELF_POST:
         $this->getSelfPost();
         break;
-      case REQUEST_EDIT_PROFILE:
-        $this->editProfile();
-        break;
     }
   }
 
@@ -87,65 +84,4 @@ class Main extends \Twitter\Controller\SessionController {
     echo json_encode($user);
   }
 
-  private function editProfile() {
-    try {
-      nameValidate();
-    } catch(\Twitter\Exception\EmptyName $e) {
-      $this->setErrors("name", $e->getMessage());
-      echo $e->getMessage();
-    } catch(\Twitter\Exception\InvalidName $e) {
-      $this->setErrors("name", $e->getMessage());
-      echo $e->getMessage();
-    }
-
-    try {
-      profileValidate();
-    } catch(\Twitter\Exception\EmptyProfile $e) {
-      $this->setErrors("profile", $e->getMessage());
-      echo $e->getMessage();
-    } catch(\Twitter\Exception\InvalidProfile $e) {
-      $this->setErrors("profile", $e->getMessage());
-      echo $e->getMessage();
-    }
-
-    if($this->hasError()) {
-      return;
-    }
-
-    $icon_file_name = "";
-
-    if(!empty($_FILES["background"]["name"])) {
-      $icon = new \Twitter\Lib\Common\ImageUploader(
-        "icon",
-        ORIGIN_ICON_PATH,
-        THUMBNAIL_ICON_PATH,
-        THUMBNAIL_ICON_WIDTH
-      );
-      $icon_file_name = $icon->upload();
-    }
-
-    $background_file_name = "";
-
-    if(!empty($_FILES["icon"]["name"])) {
-      $background = new \Twitter\Lib\Common\ImageUploader(
-        "background",
-        ORIGIN_BACKGROUND_PATH,
-        THUMBNAIL_BACKGROUND_PATH,
-        THUMBNAIL_BACKGROUND_WIDTH
-      );
-      $background_file_name = $background->upload();
-    }
-
-    $userModel = new \Twitter\Model\User();
-    $userModel->editProfile(array(
-      "user_id" => $_SESSION["user_id"],
-      "name" => $_POST["name"],
-      "profile" => $_POST["profile"],
-      "icon" => $icon_file_name !== "" ? $icon_file_name : null,
-      "background" => $icon_file_name !== "" ? $background_file_name : null
-    ));
-
-    header("Location: " . SITE_URL . "/View/Main/profile.php");
-    exit;
-  }
 }

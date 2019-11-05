@@ -15,7 +15,7 @@ isLogin();
   <link rel="stylesheet" href="../../Asset/css/profile.css">
   <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="../../Asset/js/main.js"></script>
-
+  <script type="text/javascript" src="../../Asset/js/profile.js"></script>
 </head>
 <body>
   <div id="container">
@@ -84,22 +84,24 @@ isLogin();
   <div class="modal_window">
     <div id="mask"></div>
     <div id="modal">
-      <form action="" method="post" id="edit_form">
+      <form action="../../Controller/Main/Main_Accept.php" method="post" enctype="multipart/form-data" id="edit_form">
 
         <div class="edit_header">
           <p>プロフィールを編集</p>
-          <input type="submit" value="保存">
+          <button type="button" id="save_button">保存</button>
         </div>
 
         <div class="edit_background">
-          <label>
-            <input type="file" name="background" class="background_img">
+          <img id="background_img">
+          <label><i class="fas fa-camera"></i>
+            <input type="file" accept="image/*" name="background" id="background_file">
           <label>
         </div>
 
         <div class="edit_icon">
-          <label>
-            <input type="file" name="icon" class="icon_img">
+          <img id="icon_img">
+          <label><i class="fas fa-camera"></i>
+            <input type="file" accept="image/*" name="icon" id="icon_file">
           <label>
         </div>
 
@@ -109,26 +111,16 @@ isLogin();
           <p><label class="text_label">自己紹介<input type="text" name="profile" class="input_text"></label></p>
         </div>
 
+        <input type="hidden" value="<?php echo h($_SESSION["token"]); ?>" name="token">
+        <input type="hidden" value="<?php echo h(REQUEST_EDIT_PROFILE); ?>" name="id">
+        <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo h(MAX_FILE_SIZE); ?>">
+
       </form>
     </div>
 
     <script>
-      (function() {
-        const edit_button = document.getElementById('edit_button');
-        const mask = document.getElementById('mask');
-        const modal = document.getElementById('modal');
-        const form = document.getElementById('edit_form');
-
-        edit_button.addEventListener("click", function() {
-          mask.style.display = "inline";
-          modal.style.display = "grid";
-        });
-
-        mask.addEventListener("click", function() {
-          mask.style.display = "none";
-          modal.style.display = "none";
-        });
-      })();
+      toggleModalWindow();
+      previewImage(<?php echo h(MAX_FILE_SIZE); ?>);
     </script>
 
   </div>

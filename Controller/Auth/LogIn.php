@@ -2,11 +2,11 @@
 
 namespace Twitter\Controller\Auth;
 
-class Login extends \Twitter\Controller\Auth\AuthController {
+class Login extends \Twitter\Controller\SessionController {
 
   public function run() {
     // ログインしていればホーム画面に遷移
-    if(isset($_SESSION["user"])) {
+    if(isset($_SESSION["user_id"])) {
       header("Location: " . SITE_URL . "/View/Main/home.php");
       exit;
     }
@@ -42,9 +42,7 @@ class Login extends \Twitter\Controller\Auth\AuthController {
     session_regenerate_id(true);
 
     // ログイン完了状態
-    $_SESSION["user"] = array(
-      "id" => $user["u_id"]
-    );
+    $_SESSION["user_id"] =  $user["u_id"];
 
     // ログインが完了したらホーム画面に遷移
     header("Location: " . SITE_URL . "/View/Main/home.php");
@@ -54,13 +52,13 @@ class Login extends \Twitter\Controller\Auth\AuthController {
   // フォーム送信内容チェック
   private function validate() {
     try {
-      $this->tokenValidate();
+      tokenValidate();
     } catch(\Twitter\Exception\InvalidToken $e) {
       $this->setErrors("token", $e->getMessage());
     }
 
     try {
-      $this->emailValidate();
+      emailValidate();
     } catch(\Twitter\Exception\EmptyEmail $e) {
       $this->setErrors("email", $e->getMessage());
     } catch(\Twitter\Exception\InvalidEmail $e) {
@@ -68,7 +66,7 @@ class Login extends \Twitter\Controller\Auth\AuthController {
     }
 
     try {
-      $this->passwordValidate();
+      passwordValidate();
     } catch(\Twitter\Exception\EmptyPassword $e) {
       $this->setErrors("password", $e->getMessage());
     } catch(\Twitter\Exception\InvalidPassword $e) {
