@@ -4,10 +4,6 @@
   grid-template-rows: 50px  400px 1fr;
 }
 
-.profile_button {
-  color: rgba(40, 164, 252, 1.0);
-}
-
 .profile {
   grid-row: 2 / 3;
   grid-column: 3 / 4;

@@ -14,7 +14,6 @@ isLogin();
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" href="../../Asset/css/home.css">
   <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="../../Asset/js/main.js"></script>
 
 </head>
 <body>
@@ -48,39 +47,21 @@ isLogin();
 
         <li>
           <form action="./profile.php" type="post" class="action_item">
-            <button class="action_button profile_button">プロフィール</button>
+            <button class="action_button" id="profile_button">プロフィール</button>
           </form>
         </li>
       </ul>
     </div>
 
     <div class="post">
-      <div class="user_icon"></div>
+      <img id="user_icon">
       <input type="text" name="text" placeholder="いまどうしてる？" id="tweet_text">
       <button　type="button" id="tweet_button">ツイート</button>
-
-      <script>
-        document.getElementById("tweet_button").addEventListener('click', function() {
-          const token = "<?php echo h($_SESSION['token']); ?>"
-          const sendid = "<?php echo h(REQUEST_SEND_POST); ?>"
-          const getid = "<?php echo h(REQUEST_GET_ALL_POST); ?>"
-          const text = document.getElementById("tweet_text").value;
-          document.getElementById("tweet_text").value = "";
-          sendPost(token, sendid, getid, text);
-        });
-      </script>
-
     </div>
 
     <div class="post_list">
       <ul id="post_root_ul">
       </ul>
-
-      <script>
-        const token = "<?php echo h($_SESSION['token']); ?>"
-        const id = "<?php echo h(REQUEST_GET_ALL_POST); ?>"
-        getAllPost(token, id);
-      </script>
     </div>
 
     <div class="recommend">
@@ -88,5 +69,30 @@ isLogin();
     </div>
 
   </div>
+
+  <script>
+    const token = "<?php echo h($_SESSION['token']); ?>";
+    const REQUEST_SEND_POST = <?php echo h(REQUEST_SEND_POST); ?>;
+    const REQUEST_GET_ALL_POST = <?php echo h(REQUEST_GET_ALL_POST); ?>;
+    const ORIGIN_ICON_PATH = "<?php echo h(ORIGIN_ICON_PATH); ?>";
+    const REQUEST_GET_PROFILE = "<?php echo h(REQUEST_GET_PROFILE); ?>";
+  </script>
+
+  <script type="text/javascript" src="../../Asset/js/main.js"></script>
+  <script type="text/javascript" src="../../Asset/js/home.js"></script>
+
+  <script>
+    addProfileIcon(token);
+    getSelfProfile(token);
+    getAllPost(token);
+
+    document.getElementById("tweet_button").addEventListener('click',
+    function() {
+      const text = document.getElementById("tweet_text").value;
+      document.getElementById("tweet_text").value = "";
+      sendPost(token, text);
+    });
+  </script>
+
 </body>
 </html>

@@ -14,8 +14,7 @@ isLogin();
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" href="../../Asset/css/profile.css">
   <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="../../Asset/js/main.js"></script>
-  <script type="text/javascript" src="../../Asset/js/profile.js"></script>
+
 </head>
 <body>
   <div id="container">
@@ -48,7 +47,7 @@ isLogin();
 
         <li>
           <form action="./profile.php" type="post" class="action_item">
-            <button class="action_button profile_button">プロフィール</button>
+            <button class="action_button" id="profile_button">プロフィール</button>
           </form>
         </li>
       </ul>
@@ -69,9 +68,7 @@ isLogin();
       </ul>
 
       <script>
-        const token = "<?php echo h($_SESSION['token']); ?>"
-        const id = "<?php echo h(REQUEST_GET_SELF_POST); ?>"
-        getSelfTweets(token, id);
+
       </script>
     </div>
 
@@ -117,13 +114,24 @@ isLogin();
 
       </form>
     </div>
-
-    <script>
-      toggleModalWindow();
-      previewImage(<?php echo h(MAX_FILE_SIZE); ?>);
-    </script>
-
   </div>
+
+  <script>
+    const token = "<?php echo h($_SESSION['token']); ?>";
+    const REQUEST_GET_SELF_POST = <?php echo h(REQUEST_GET_SELF_POST); ?>;
+    const REQUEST_GET_PROFILE = "<?php echo h(REQUEST_GET_PROFILE); ?>";
+    const ORIGIN_ICON_PATH = "<?php echo h(ORIGIN_ICON_PATH); ?>";
+  </script>
+
+  <script type="text/javascript" src="../../Asset/js/main.js"></script>
+  <script type="text/javascript" src="../../Asset/js/profile.js"></script>
+
+  <script>
+    addProfileIcon(token);
+    getSelfTweets(token);
+    toggleModalWindow();
+    previewImage(<?php echo h(MAX_FILE_SIZE); ?>);
+  </script>
 
 </body>
 </html>

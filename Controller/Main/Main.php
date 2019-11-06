@@ -41,6 +41,9 @@ class Main extends \Twitter\Controller\SessionController {
       case REQUEST_EDIT_PROFILE:
         $this->editProfile();
         break;
+      case REQUEST_GET_PROFILE:
+        $this->getSelfProfile();
+        break;
     }
   }
 
@@ -117,9 +120,9 @@ class Main extends \Twitter\Controller\SessionController {
     if(!empty($_FILES["background"]["name"])) {
       $icon = new \Twitter\Lib\Common\ImageUploader(
         "icon",
-        ORIGIN_ICON_PATH,
-        THUMBNAIL_ICON_PATH,
-        THUMBNAIL_ICON_WIDTH
+        PROJECT_PATH . ORIGIN_ICON_PATH,
+        PROJECT_PATH . THUMBNAIL_ICON_PATH,
+        PROJECT_PATH . THUMBNAIL_ICON_WIDTH
       );
       $icon_file_name = $icon->upload();
     }
@@ -129,9 +132,9 @@ class Main extends \Twitter\Controller\SessionController {
     if(!empty($_FILES["icon"]["name"])) {
       $background = new \Twitter\Lib\Common\ImageUploader(
         "background",
-        ORIGIN_BACKGROUND_PATH,
-        THUMBNAIL_BACKGROUND_PATH,
-        THUMBNAIL_BACKGROUND_WIDTH
+        PROJECT_PATH . ORIGIN_BACKGROUND_PATH,
+        PROJECT_PATH . THUMBNAIL_BACKGROUND_PATH,
+        PROJECT_PATH . THUMBNAIL_BACKGROUND_WIDTH
       );
       $background_file_name = $background->upload();
     }
@@ -147,5 +150,14 @@ class Main extends \Twitter\Controller\SessionController {
 
     header("Location: " . SITE_URL . "/View/Main/profile.php");
     exit;
+  }
+
+  private function getSelfProfile() {
+    $userModel = new \Twitter\Model\User();
+
+    $user = $userModel->getSelfProfile();
+
+    header("conten-type: application/json; charset=utf8");
+    echo json_encode($user);
   }
 }

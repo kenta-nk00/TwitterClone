@@ -113,4 +113,21 @@ class User {
       ":background" => $values["background"]
     ]);
   }
+
+  public function getSelfProfile() {
+    $sql = "select u_id, u_name, u_profile, u_icon, u_background from users where u_id = :u_id";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":u_id" => $_SESSION["user_id"]
+    ]);
+
+    $posts = "";
+
+    if($result) {
+      $posts = $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    return $posts;
+  }
 }

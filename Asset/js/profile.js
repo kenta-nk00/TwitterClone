@@ -1,5 +1,24 @@
 'use strict'
 
+function getSelfTweets(token) {
+  $.ajax( {
+    url : "../../Controller/Main/Main_Accept.php",
+    type : "POST",
+    data : {
+      token : token,
+      id : REQUEST_GET_SELF_POST
+    },
+  }).done(function(data) {
+
+    if(data !== "[]") {
+      reloadPosts(JSON.parse(data));
+    }
+
+  }).fail(function(data) {
+
+  });
+}
+
 function toggleModalWindow() {
   const edit_button = document.getElementById('edit_button');
   const mask = document.getElementById('mask');
