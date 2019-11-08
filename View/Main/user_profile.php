@@ -3,17 +3,19 @@ require_once(__DIR__ . "/../../Lib/config.php");
 
 isLogin();
 
+isSetCookie("user_id");
+
 require_once("../../Asset/js/main_js.php");
-require_once("../../Asset/js/home_js.php");
+require_once("../../Asset/js/profile_js.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>ホーム</title>
+  <title>プロフィール</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-  <link rel="stylesheet" href="../../Asset/css/home.css">
+  <link rel="stylesheet" href="../../Asset/css/profile.css">
   <script type="text/javascript" src="../../Asset/jquery/jquery.min.js"></script>
 
 </head>
@@ -25,7 +27,7 @@ require_once("../../Asset/js/home_js.php");
     </div>
 
     <div class="title">
-      <p>ホーム</p>
+      <p id="user_name"></p>
     </div>
 
     <div class="search">
@@ -54,10 +56,31 @@ require_once("../../Asset/js/home_js.php");
       </ul>
     </div>
 
-    <div class="post">
-      <img id="user_icon">
-      <textarea name="text" placeholder="いまどうしてる？" id="tweet_text"></textarea>
-      <button　type="button" id="tweet_button">ツイート</button>
+    <div class="profile">
+      <div class="user_background">
+        <img id="user_background_img">
+      </div>
+
+      <div class="user_icon">
+        <img id="user_icon_img">
+      </div>
+
+      <div class="user_profile">
+        <div class="u_name">
+          <p id="u_name"></p>
+        </div>
+
+        <div class="u_profile">
+          <p id="u_profile"></p>
+        </div>
+
+        <div class="u_follow">
+          <p id="u_follow"></p>フォロー
+          <p id="u_follower"></p>フォロワー
+        </div>
+      </div>
+
+      <button　type="button" class="interact_button" id="follow_button">フォローする</button>
     </div>
 
     <div class="post_list">
@@ -73,17 +96,17 @@ require_once("../../Asset/js/home_js.php");
 
   <script>
     const token = "<?php echo h($_SESSION['token']); ?>";
+    const user_id = "<?php echo h($_COOKIE['user_id']); ?>";
 
     setActionBarIcon(token);
-    setTextAreaIcon(token);
-    getAllPost(token);
+    getUserProfile(token, user_id);
+    getSelfTweets(token, user_id);
 
-    document.getElementById("tweet_button").addEventListener('click',
-    function() {
-      const text = document.getElementById("tweet_text").value;
-      document.getElementById("tweet_text").value = "";
-      sendPost(token, text);
+    const follow_button = document.getElementById("follow_button");
+    follow_button.addEventListener("click", function() {
+      followUser(token, user_id);
     });
+
   </script>
 
 </body>

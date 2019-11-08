@@ -1,3 +1,9 @@
+<?php
+require_once(__DIR__ . "/../../Lib/config.php");
+
+ ?>
+
+<script>
 'use strict'
 
 function sendPost(token, text) {
@@ -6,7 +12,7 @@ function sendPost(token, text) {
     type : "POST",
     data : {
       token : token,
-      id : REQUEST_SEND_POST,
+      id : <?php echo h(REQUEST_SEND_POST); ?>,
       text : text
     }
   }).done(function(data) {
@@ -18,18 +24,19 @@ function sendPost(token, text) {
   });
 }
 
-function getSelfProfile(token) {
+function setTextAreaIcon(token) {
   $.ajax( {
     url : "../../Controller/Main/Main_Accept.php",
     type : "POST",
     data : {
       token : token,
-      id : REQUEST_GET_PROFILE
+      id : <?php echo h(REQUEST_GET_PROFILE); ?>,
+      user_id : <?php echo h($_SESSION["user_id"]); ?>
     },
   }).done(function(data) {
 
     if(data !== "[]") {
-      setIcon(JSON.parse(data));
+      textarea_setIcon(JSON.parse(data));
     }
 
   }).fail(function(data) {
@@ -37,12 +44,13 @@ function getSelfProfile(token) {
   });
 }
 
-function setIcon(data) {
+function textarea_setIcon(data) {
   const user_icon = document.getElementById("user_icon");
 
   if(data.u_icon === null) {
-    user_icon.setAttribute("src", ORIGIN_ICON_PATH + "/default.png");
+    user_icon.setAttribute("src", "<?php echo h(ORIGIN_ICON_PATH); ?>" + "/default.png");
   } else {
-    user_icon.setAttribute("src", ORIGIN_ICON_PATH + "/" + data.u_icon);
+    user_icon.setAttribute("src", "<?php echo h(ORIGIN_ICON_PATH); ?>" + "/" + data.u_icon);
   }
 }
+</script>

@@ -2,7 +2,7 @@
 
 namespace Twitter\Controller\Main;
 
-class Main extends \Twitter\Controller\SessionController {
+class Home extends \Twitter\Controller\SessionController {
 
   public function run() {
 
@@ -18,10 +18,9 @@ class Main extends \Twitter\Controller\SessionController {
 
     // 正規のリクエストか確認
     try {
-      tokenValidate();
+      $this->tokenValidate();
     } catch(\Twitter\Exception\InvalidToken $e) {
       $this->setErrors("token", $e->getMessage());
-      echo $e->getMessage();
     }
 
     if($this->hasError()) {
@@ -32,11 +31,8 @@ class Main extends \Twitter\Controller\SessionController {
       case REQUEST_SEND_POST:
         $this->sendPost();
         break;
-      case REQUEST_GET_ALL_POST:
-        $this->getAllPost();
-        break;
-      case REQUEST_GET_SELF_POST:
-        $this->getSelfPost();
+      case REQUEST_GET_POST:
+        $this->getPosts();
         break;
     }
   }
@@ -46,10 +42,8 @@ class Main extends \Twitter\Controller\SessionController {
       textValidate();
     } catch(\Twitter\Exception\EmptyText $e) {
       $this->setErrors('text', $e->getMessage());
-      echo $e->getMessage();
     } catch(\Twitter\Exception\InvalidText $e) {
       $this->setErrors('text', $e->getMessage());
-      echo $e->getMessage();
     }
 
     if($this->hasError()) {
@@ -59,29 +53,30 @@ class Main extends \Twitter\Controller\SessionController {
     $userModel = new \Twitter\Model\User();
 
     $user = $userModel->sendTweet(array(
-      "user_id" => $_SESSION["user_id"],
+      "user_id" => $_SESSION["user"]["id"],
       "text" => $_POST["text"],
       "img" => empty($_POST["img"]) ? null : $_POST["img"],
       "date" => date("Y/m/d H:i:s")
     ));
   }
 
-  private function getAllPost() {
+  private function getPosts() {
     $userModel = new \Twitter\Model\User();
 
-    $user = $userModel->getAllPost();
+    $user = $userModel->getTweets();
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);
   }
 
-  private function getSelfPost() {
-    $userModel = new \Twitter\Model\User();
+  private function textValidate() {
+    if(!isset($_POST['text'])|| empty($_POST['text'])) {
+      throw new \Twitter\Exception\EmptyText();
+    }
 
-    $user = $userModel->getSelfPost();
-
-    header("conten-type: application/json; charset=utf8");
-    echo json_encode($user);
+    if(strlen($_POST['text']) > MAX_TEXT_LENGTH) {
+      throw new \Twitter\Exception\InvalidText();
+    }
   }
 
 }

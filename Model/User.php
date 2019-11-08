@@ -71,7 +71,7 @@ class User {
 
   // 全ツイート取得処理
   public function getAllPost() {
-    $sql = "select u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id order by p_id desc";
+    $sql = "select u_id, u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id order by p_id desc";
     $stmt = $this->db->query($sql);
 
     $posts = "";
@@ -83,13 +83,13 @@ class User {
     return $posts;
   }
 
-  // 自ツイート取得処理
-  public function getSelfPost() {
-    $sql = "select u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id and posts.p_user_id = :user_id order by p_id desc";
+  // ツイート取得処理
+  public function getPost($user_id) {
+    $sql = "select u_id, u_name, u_icon, p_text, p_img, p_comment, p_like, p_date from posts inner join users on posts.p_user_id = users.u_id and posts.p_user_id = :user_id order by p_id desc";
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
-      ":user_id" => $_SESSION["user_id"]
+      ":user_id" => $user_id
     ]);
 
     $posts = "";
@@ -101,6 +101,7 @@ class User {
     return $posts;
   }
 
+  // プロフィール編集
   public function editProfile($values) {
     $sql = "update users set u_name=:name, u_profile=:profile, u_icon=:icon, u_background=:background where u_id=:user_id";
     $stmt = $this->db->prepare($sql);
@@ -114,12 +115,13 @@ class User {
     ]);
   }
 
-  public function getSelfProfile() {
+  // ユーザー情報取得
+  public function getProfile($user_id) {
     $sql = "select u_id, u_name, u_profile, u_icon, u_background from users where u_id = :u_id";
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
-      ":u_id" => $_SESSION["user_id"]
+      ":u_id" => $user_id
     ]);
 
     $posts = "";
@@ -129,5 +131,34 @@ class User {
     }
 
     return $posts;
+  }
+
+  // フォロワー取得
+  public function getFollower($user_id) {
+    $sql = "select f_user_id, f_follower_id from follows where f_user_id = :user_id order by f_id desc";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $user_id
+    ]);
+
+    $posts = "";
+
+    if($result) {
+      $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    return $posts;
+  }
+
+  // ユーザーフォロー
+  public function followUser($values) {
+    $sql = "insert into follows(f_user_id, f_follower_id) values(:user_id, :follower_id)";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $values["user_id"],
+      ":follower_id" => $values["follower_id"]
+    ]);
   }
 }

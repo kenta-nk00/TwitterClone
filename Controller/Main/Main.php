@@ -35,14 +35,20 @@ class Main extends \Twitter\Controller\SessionController {
       case REQUEST_GET_ALL_POST:
         $this->getAllPost();
         break;
-      case REQUEST_GET_SELF_POST:
-        $this->getSelfPost();
+      case REQUEST_GET_POST:
+        $this->getPost();
+        break;
+      case REQUEST_GET_PROFILE:
+        $this->getProfile();
         break;
       case REQUEST_EDIT_PROFILE:
         $this->editProfile();
         break;
-      case REQUEST_GET_PROFILE:
-        $this->getSelfProfile();
+      case REQUEST_SHOW_USER_PROFILE:
+        $this->showUserProfile();
+        break;
+      case REQUEST_FOLLOW_USER:
+        $this->followUser();
         break;
     }
   }
@@ -66,7 +72,7 @@ class Main extends \Twitter\Controller\SessionController {
 
     $user = $userModel->sendTweet(array(
       "user_id" => $_SESSION["user_id"],
-      "text" => $_POST["text"],
+      "text" => nl2br($_POST["text"], false),
       "img" => empty($_POST["img"]) ? null : $_POST["img"],
       "date" => date("Y/m/d H:i:s")
     ));
@@ -81,10 +87,24 @@ class Main extends \Twitter\Controller\SessionController {
     echo json_encode($user);
   }
 
-  private function getSelfPost() {
+  private function getPost() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
     $userModel = new \Twitter\Model\User();
 
-    $user = $userModel->getSelfPost();
+    $user = $userModel->getPost($_POST["user_id"]);
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);
@@ -102,7 +122,7 @@ class Main extends \Twitter\Controller\SessionController {
     }
 
     try {
-      profileValidate();
+      textAreaValidate("profile");
     } catch(\Twitter\Exception\EmptyProfile $e) {
       $this->setErrors("profile", $e->getMessage());
       echo $e->getMessage();
@@ -117,7 +137,7 @@ class Main extends \Twitter\Controller\SessionController {
 
     $icon_file_name = "";
 
-    if(!empty($_FILES["background"]["name"])) {
+    if(!empty($_FILES["icon"]["name"])) {
       $icon = new \Twitter\Lib\Common\ImageUploader(
         "icon",
         PROJECT_PATH . ORIGIN_ICON_PATH,
@@ -129,7 +149,7 @@ class Main extends \Twitter\Controller\SessionController {
 
     $background_file_name = "";
 
-    if(!empty($_FILES["icon"]["name"])) {
+    if(!empty($_FILES["background"]["name"])) {
       $background = new \Twitter\Lib\Common\ImageUploader(
         "background",
         PROJECT_PATH . ORIGIN_BACKGROUND_PATH,
@@ -143,21 +163,93 @@ class Main extends \Twitter\Controller\SessionController {
     $userModel->editProfile(array(
       "user_id" => $_SESSION["user_id"],
       "name" => $_POST["name"],
-      "profile" => $_POST["profile"],
-      "icon" => $icon_file_name !== "" ? $icon_file_name : null,
-      "background" => $icon_file_name !== "" ? $background_file_name : null
+      "profile" => nl2br($_POST["profile"], false),
+      "icon" => $icon_file_name !== "" ? $icon_file_name : $userModel->getProfile($_SESSION["user_id"])["u_icon"],
+      "background" => $background_file_name !== "" ? $background_file_name : $userModel->getProfile($_SESSION["user_id"])["u_background"]
     ));
 
-    header("Location: " . SITE_URL . "/View/Main/profile.php");
+    header("Location: " . SITE_URL . "/View/Main/self_profile.php");
     exit;
   }
 
-  private function getSelfProfile() {
-    $userModel = new \Twitter\Model\User();
+  private function getProfile() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
 
-    $user = $userModel->getSelfProfile();
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
+    $user = $userModel->getProfile($_POST["user_id"]);
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);
+  }
+
+  private function showUserProfile() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    if(isset($_COOKIE["user_id"])) {
+      setcookie("user_id", '', time() - 1, "/");
+    }
+
+    if($_SESSION["user_id"] === $_POST["user_id"]) {
+      header("Location: " . SITE_URL . "/View/Main/self_profile.php");
+      exit;
+    } else {
+      setcookie("user_id", $_POST["user_id"], time() + 3600 * 24, "/");
+      header("Location: " . SITE_URL . "/View/Main/user_profile.php");
+      exit;
+    }
+  }
+
+  private function followUser() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
+
+    $user = $userModel->getFollower(
+      $_POST["user_id"]
+    );
+
+    header("conten-type: application/json; charset=utf8");
+    echo json_encode($user);
+
+    // $user = $userModel->followUser(array(
+    //   "user_id" => $_POST["user_id"],
+    //   "follower_id" => $_SESSION["user_id"]
+    // ));
   }
 }

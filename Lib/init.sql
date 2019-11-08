@@ -21,3 +21,9 @@ create table posts (
   p_like int unsigned default 0,
   p_date datetime
 );
+
+create table follows (
+  f_id int unsigned not null auto_increment primary key,
+  f_user_id int unsigned,
+  f_follower_id int unsigned
+);

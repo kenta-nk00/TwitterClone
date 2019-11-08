@@ -15,6 +15,13 @@ function isLogin() {
   }
 }
 
+function isSetCookie($name) {
+  if(!isset($_COOKIE[$name])) {
+    header("Location: " . SITE_URL . "/View/Main/home.php");
+    exit;
+  }
+}
+
 function tokenValidate() {
   if(!isset($_POST["token"]) || $_POST["token"] !== $_SESSION["token"]) {
     throw new \Twitter\Exception\InvalidToken();
@@ -26,7 +33,7 @@ function nameValidate() {
     throw new \Twitter\Exception\EmptyName();
   }
 
-  if(strlen($_POST['name']) > MAX_CHAR_LENGTH) {
+  if(mb_strlen($_POST['name']) > MAX_CHAR_LENGTH) {
     throw new \Twitter\Exception\InvalidName();
   }
 }
@@ -36,7 +43,7 @@ function emailValidate() {
     throw new \Twitter\Exception\EmptyEmail();
   }
 
-  if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || strlen($_POST['email']) > MAX_CHAR_LENGTH) {
+  if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) || mb_strlen($_POST['email']) > MAX_CHAR_LENGTH) {
     throw new \Twitter\Exception\InvalidEmail();
   }
 }
@@ -56,17 +63,27 @@ function textValidate() {
     throw new \Twitter\Exception\EmptyText();
   }
 
-  if(strlen($_POST['text']) > MAX_TEXT_LENGTH) {
+  if(mb_strlen($_POST['text']) > MAX_TEXT_LENGTH) {
     throw new \Twitter\Exception\InvalidText();
   }
 }
 
-function profileValidate() {
-  if(!isset($_POST['profile'])|| empty($_POST['profile'])) {
+function textAreaValidate($name) {
+  if(!isset($_POST[$name])|| empty($_POST[$name])) {
     throw new \Twitter\Exception\EmptyProfile();
   }
 
-  if(strlen($_POST['profile']) > MAX_TEXT_LENGTH) {
+  if(mb_strlen($_POST[$name]) > MAX_TEXT_LENGTH) {
     throw new \Twitter\Exception\InvalidProfile();
+  }
+}
+
+function userIdValidate() {
+  if(!isset($_POST["user_id"])|| empty($_POST["user_id"])) {
+    throw new \Twitter\Exception\EmptyId();
+  }
+
+  if(!is_numeric($_POST["user_id"])) {
+    throw new \Twitter\Exception\InvalidId();
   }
 }

@@ -33,6 +33,9 @@ class LogOut extends \Twitter\Controller\SessionController {
     if(isset($_COOKIE[session_name()])) {
       setcookie(session_name(), '', time() - 1, "/");
     }
+    if(isset($_COOKIE["user_id"])) {
+      setcookie("user_id", '', time() - 1, "/");
+    }
 
     // セッション削除
     session_destroy();

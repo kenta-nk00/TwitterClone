@@ -1,5 +1,9 @@
 @import url("./main.css");
 
+#container {
+  grid-template-rows: 50px 200px 1fr;
+}
+
 .home_button {
   color: rgba(40, 164, 252, 1.0);
 }
@@ -10,7 +14,7 @@
   border-right: 1px solid #eee;
   padding: 5px;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 50px;
   grid-template-columns: 50px 1fr 100px;
 }
 
@@ -23,16 +27,17 @@
   border: 1px solid #eee;
 }
 
-input[type="text"] {
+#tweet_text {
   grid-row: 1 / 2;
-  grid-column: 2 / 4;
-  margin-bottom: 5px;
+  grid-column: 2 / 3;
+  font-size: 14px;
   padding: 5px;
   border: none;
   border-radius: 15px;
+  resize: none;
 }
 
-input[type="text"]:focus {
+#tweet_text:focus {
   outline: none;
 }
 

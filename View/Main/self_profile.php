@@ -4,6 +4,8 @@ require_once(__DIR__ . "/../../Lib/config.php");
 
 isLogin();
 
+require_once("../../Asset/js/main_js.php");
+require_once("../../Asset/js/profile_js.php");
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +26,7 @@ isLogin();
     </div>
 
     <div class="title">
-      <p>プロフィール</p>
+      <p id="user_name"></p>
     </div>
 
     <div class="search">
@@ -46,7 +48,7 @@ isLogin();
         </li>
 
         <li>
-          <form action="./profile.php" type="post" class="action_item">
+          <form action="./self_profile.php" type="post" class="action_item">
             <button class="action_button" id="profile_button">プロフィール</button>
           </form>
         </li>
@@ -54,22 +56,35 @@ isLogin();
     </div>
 
     <div class="profile">
-      <div class="user_background"></div>
+      <div class="user_background">
+        <img id="user_background_img">
+      </div>
 
-      <div class="user_icon"></div>
+      <div class="user_icon">
+        <img id="user_icon_img">
+      </div>
 
-      <div class="user_profile"></div>
+      <div class="user_profile">
+        <div class="u_name">
+          <p id="u_name"></p>
+        </div>
 
-      <button　type="button" id="edit_button">プロフィールを編集</button>
+        <div class="u_profile">
+          <p id="u_profile"></p>
+        </div>
+
+        <div class="u_follow">
+          <p id="u_follow"></p>フォロー
+          <p id="u_follower"></p>フォロワー
+        </div>
+      </div>
+
+      <button　type="button" class="interact_button" id="edit_button">プロフィールを編集</button>
     </div>
 
     <div class="post_list">
       <ul id="post_root_ul">
       </ul>
-
-      <script>
-
-      </script>
     </div>
 
     <div class="recommend">
@@ -103,9 +118,8 @@ isLogin();
         </div>
 
         <div class="edit_text">
-          <p><label class="text_label">名前<input type="text" name="name" class="input_text"></label></p>
-
-          <p><label class="text_label">自己紹介<input type="text" name="profile" class="input_text"></label></p>
+          <p><label class="text_label">名前<input type="text" name="name" class="input_text" id="edit_name"></label></p>
+          <p><label class="text_label">自己紹介<textarea rows="5" name="profile" class="input_text" id="edit_profile"></textarea></label></p>
         </div>
 
         <input type="hidden" value="<?php echo h($_SESSION["token"]); ?>" name="token">
@@ -118,19 +132,13 @@ isLogin();
 
   <script>
     const token = "<?php echo h($_SESSION['token']); ?>";
-    const REQUEST_GET_SELF_POST = <?php echo h(REQUEST_GET_SELF_POST); ?>;
-    const REQUEST_GET_PROFILE = "<?php echo h(REQUEST_GET_PROFILE); ?>";
-    const ORIGIN_ICON_PATH = "<?php echo h(ORIGIN_ICON_PATH); ?>";
-  </script>
+    const usesr_id = <?php echo h($_SESSION["user_id"]); ?>;
 
-  <script type="text/javascript" src="../../Asset/js/main.js"></script>
-  <script type="text/javascript" src="../../Asset/js/profile.js"></script>
-
-  <script>
-    addProfileIcon(token);
-    getSelfTweets(token);
+    setActionBarIcon(token);
+    getSelfProfile(token, usesr_id);
+    getSelfTweets(token, usesr_id);
+    previewImage();
     toggleModalWindow();
-    previewImage(<?php echo h(MAX_FILE_SIZE); ?>);
   </script>
 
 </body>

@@ -39,7 +39,7 @@ class ImageUploader {
     if(!isset($_FILES[$this->_image_name]) || !isset($_FILES[$this->_image_name]["error"])) {
       throw new \Twitter\Exception\InvalidUploadImage();
     }
-
+    
     switch($_FILES[$this->_image_name]["error"]) {
       case UPLOAD_ERR_OK:
         break;
