@@ -1,11 +1,9 @@
 <?php
-
 require_once(__DIR__ . "/../../Lib/config.php");
 
 isLogin();
 
-require_once("../../Asset/js/main_js.php");
-require_once("../../Asset/js/profile_js.php");
+require_once("../../Asset/js/self_profile_js.php");
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +20,7 @@ require_once("../../Asset/js/profile_js.php");
   <div id="container">
 
     <div class="icon">
-      <i class="fab fa-twitter fa-2x home_icon"></i>
+      <i class="fab fa-twitter fa-2x home_icon" onclick="backHome()"></i>
     </div>
 
     <div class="title">
@@ -74,12 +72,14 @@ require_once("../../Asset/js/profile_js.php");
         </div>
 
         <div class="u_follow">
-          <p id="u_follow"></p>フォロー
-          <p id="u_follower"></p>フォロワー
+          <p id="u_follow">0</p>フォロー中
+          <p id="u_follower">0</p>フォロワー
         </div>
       </div>
 
-      <button　type="button" class="interact_button" id="edit_button">プロフィールを編集</button>
+      <div id="intaract_button">
+        <button id="edit_button">プロフィールを編集</button>
+      </div>
     </div>
 
     <div class="post_list">
@@ -132,13 +132,9 @@ require_once("../../Asset/js/profile_js.php");
 
   <script>
     const token = "<?php echo h($_SESSION['token']); ?>";
-    const usesr_id = <?php echo h($_SESSION["user_id"]); ?>;
+    const user_id = <?php echo h($_SESSION["user_id"]); ?>;
 
-    setActionBarIcon(token);
-    getSelfProfile(token, usesr_id);
-    getSelfTweets(token, usesr_id);
-    previewImage();
-    toggleModalWindow();
+    moduleCall(token, user_id);
   </script>
 
 </body>

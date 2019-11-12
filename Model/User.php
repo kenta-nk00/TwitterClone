@@ -6,14 +6,12 @@ class User {
   private $db;
 
   public function __construct() {
-
     try {
       $this->db = new \PDO(DSN, DB_USERNAME, DB_PASSWORD);
     } catch(\PDOException $e) {
       echo $e->getMessage();
       exit;
     }
-
   }
 
   // サインアップ処理
@@ -133,32 +131,81 @@ class User {
     return $posts;
   }
 
-  // フォロワー取得
-  public function getFollower($user_id) {
-    $sql = "select f_user_id, f_follower_id from follows where f_user_id = :user_id order by f_id desc";
+  // フォロー数取得
+  public function getFollow($user_id) {
+    $sql = "select count(*) as follow from follows group by f_follower_id having f_follower_id = :user_id";
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
       ":user_id" => $user_id
     ]);
 
-    $posts = "";
+    $follower = "";
 
     if($result) {
-      $posts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      $follower = $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    return $posts;
+    return $follower;
   }
 
-  // ユーザーフォロー
-  public function followUser($values) {
-    $sql = "insert into follows(f_user_id, f_follower_id) values(:user_id, :follower_id)";
+  // フォロワー数取得
+  public function getFollower($user_id) {
+    $sql = "select count(*) as follower from follows group by f_user_id having f_user_id = :user_id";
     $stmt = $this->db->prepare($sql);
 
     $result = $stmt->execute([
-      ":user_id" => $values["user_id"],
-      ":follower_id" => $values["follower_id"]
+      ":user_id" => $user_id
+    ]);
+
+    $follower = "";
+
+    if($result) {
+      $follower = $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    return $follower;
+  }
+
+  // ユーザーフォロー
+  public function addFollow($user_id) {
+    $sql = "insert into follows(f_user_id, f_follower_id) select :user_id, :follower_id from dual where not exists(select * from follows where f_user_id = :user_id AND f_follower_id = :follower_id)";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $user_id,
+      ":follower_id" => $_SESSION["user_id"]
     ]);
   }
+
+  // フォローしているか
+  public function isFollow($user_id) {
+    $sql = "select exists(select * from follows where f_user_id = :user_id and f_follower_id = :follower_id) as flag";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $user_id,
+      ":follower_id" => $_SESSION["user_id"]
+    ]);
+
+    $flag = "false";
+
+    if($result) {
+      $flag = $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    return $flag;
+  }
+
+  // フォロー解除
+  public function removeFollow($user_id) {
+    $sql = "delete from follows where f_user_id = :user_id and f_follower_id = :follower_id";
+    $stmt = $this->db->prepare($sql);
+
+    $result = $stmt->execute([
+      ":user_id" => $user_id,
+      ":follower_id" => $_SESSION["user_id"]
+    ]);
+  }
+
 }

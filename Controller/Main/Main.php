@@ -47,8 +47,20 @@ class Main extends \Twitter\Controller\SessionController {
       case REQUEST_SHOW_USER_PROFILE:
         $this->showUserProfile();
         break;
-      case REQUEST_FOLLOW_USER:
-        $this->followUser();
+      case REQUEST_ADD_FOLLOW:
+        $this->addFollow();
+        break;
+      case REQUEST_GET_FOLLOW:
+        $this->getFollow();
+        break;
+      case REQUEST_GET_FOLLOWER:
+        $this->getFollower();
+        break;
+      case REQUEST_IS_FOLLOW:
+        $this->isFollow();
+        break;
+      case REQUEST_REMOVE_FOLLOW:
+        $this->removeFollow();
         break;
     }
   }
@@ -188,7 +200,9 @@ class Main extends \Twitter\Controller\SessionController {
     }
 
     $userModel = new \Twitter\Model\User();
-    $user = $userModel->getProfile($_POST["user_id"]);
+    $user = $userModel->getProfile(
+      $_POST["user_id"]
+    );
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);
@@ -223,7 +237,7 @@ class Main extends \Twitter\Controller\SessionController {
     }
   }
 
-  private function followUser() {
+  private function addFollow() {
     try {
       userIdValidate();
     } catch(\Twitter\Exception\EmptyId $e) {
@@ -240,16 +254,103 @@ class Main extends \Twitter\Controller\SessionController {
 
     $userModel = new \Twitter\Model\User();
 
+    $userModel->addFollow(
+      $_POST["user_id"]
+    );
+  }
+
+  private function getFollow() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
+    $user = $userModel->getFollow(
+      $_POST["user_id"]
+    );
+
+    header("conten-type: application/json; charset=utf8");
+    echo json_encode($user);
+  }
+
+  private function getFollower() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
     $user = $userModel->getFollower(
       $_POST["user_id"]
     );
 
     header("conten-type: application/json; charset=utf8");
     echo json_encode($user);
-
-    // $user = $userModel->followUser(array(
-    //   "user_id" => $_POST["user_id"],
-    //   "follower_id" => $_SESSION["user_id"]
-    // ));
   }
+
+  private function isFollow() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
+    $flag = $userModel->isFollow(
+      $_POST["user_id"]
+    );
+
+    header("conten-type: application/json; charset=utf8");
+    echo json_encode($flag);
+  }
+
+  private function removeFollow() {
+    try {
+      userIdValidate();
+    } catch(\Twitter\Exception\EmptyId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    } catch(\Twitter\Exception\InvalidId $e) {
+      $this->setErrors("user_id", $e->getMessage());
+      echo $e->getMessage();
+    }
+
+    if($this->hasError()) {
+      return;
+    }
+
+    $userModel = new \Twitter\Model\User();
+
+    $userModel->removeFollow(
+      $_POST["user_id"]
+    );
+  }
+
 }

@@ -1,10 +1,20 @@
 <?php
 require_once(__DIR__ . "/../../Lib/config.php");
+require_once(__DIR__ . "/main_js.php");
 
  ?>
 
 <script>
 'use strict'
+
+function moduleCall(token, user_id) {
+  setActionBarIcon(token);
+  getSelfProfile(token, user_id);
+  getSelfTweets(token, user_id);
+  getFollow(token, user_id);
+  getFollower(token, user_id);
+  setEventButton();
+}
 
 function getSelfTweets(token, user_id) {
   $.ajax( {
@@ -37,49 +47,11 @@ function getSelfProfile(token, user_id) {
     },
   }).done(function(data) {
 
-    if(data !== "[]") {
+    if(data !== "false") {
       setProfile(JSON.parse(data));
       setModalInfo(JSON.parse(data));
     }
 
-  }).fail(function(data) {
-
-  });
-}
-
-function getUserProfile(token, user_id) {
-  $.ajax( {
-    url : "../../Controller/Main/Main_Accept.php",
-    type : "POST",
-    data : {
-      token : token,
-      id : <?php echo h(REQUEST_GET_PROFILE); ?>,
-      user_id : user_id
-    },
-  }).done(function(data) {
-
-    if(data !== "[]") {
-      setProfile(JSON.parse(data));
-    }
-
-  }).fail(function(data) {
-
-  });
-}
-
-function followUser(token, user_id) {
-  console.log(user_id);
-
-  $.ajax( {
-    url : "../../Controller/Main/Main_Accept.php",
-    type : "POST",
-    data : {
-      token : token,
-      id : <?php echo h(REQUEST_FOLLOW_USER); ?>,
-      user_id : user_id
-    },
-  }).done(function(data) {
-    console.log(data);
   }).fail(function(data) {
 
   });
@@ -136,7 +108,7 @@ function setModalInfo(data) {
   edit_profile.innerHTML = data.u_profile.replace(/<br>/g, "");
 }
 
-function toggleModalWindow() {
+function setEventButton() {
   const edit_button = document.getElementById('edit_button');
   const mask = document.getElementById('mask');
   const modal = document.getElementById('modal');
@@ -150,9 +122,7 @@ function toggleModalWindow() {
     mask.style.display = "none";
     modal.style.display = "none";
   });
-}
 
-function previewImage() {
   const background_file = document.getElementById('background_file');
   const icon_file = document.getElementById('icon_file');
   const background_img = document.getElementById('background_img');
@@ -162,7 +132,6 @@ function previewImage() {
   let icon_img_size = 0;
 
   save_button.addEventListener("click", function() {
-
     if(background_img_size > 0) {
       if(!checkImageSize(background_img_size)) {
         return;

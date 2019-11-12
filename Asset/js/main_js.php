@@ -6,25 +6,6 @@ require_once(__DIR__ . "/../../Lib/config.php");
 <script>
 'use strict'
 
-function getAllPost(token) {
-  $.ajax( {
-    url : "../../Controller/Main/Main_Accept.php",
-    type : "POST",
-    data : {
-      token : token,
-      id : <?php echo h(REQUEST_GET_ALL_POST); ?>
-    },
-  }).done(function(data) {
-
-    if(data !== "[]") {
-      reloadPosts(JSON.parse(data));
-    }
-
-  }).fail(function(data) {
-
-  });
-}
-
 function setActionBarIcon(token) {
   $.ajax( {
     url : "../../Controller/Main/Main_Accept.php",
@@ -40,6 +21,42 @@ function setActionBarIcon(token) {
       action_bar_setIcon(JSON.parse(data));
     }
 
+  }).fail(function(data) {
+
+  });
+}
+
+function getFollow(token, user_id) {
+  $.ajax( {
+    url : "../../Controller/Main/Main_Accept.php",
+    type : "POST",
+    data : {
+      token : token,
+      id : <?php echo h(REQUEST_GET_FOLLOW); ?>,
+      user_id : user_id
+    },
+  }).done(function(data) {
+    if(data !== "false") {
+      setFollowCount(JSON.parse(data));
+    }
+  }).fail(function(data) {
+
+  });
+}
+
+function getFollower(token, user_id) {
+  $.ajax( {
+    url : "../../Controller/Main/Main_Accept.php",
+    type : "POST",
+    data : {
+      token : token,
+      id : <?php echo h(REQUEST_GET_FOLLOWER); ?>,
+      user_id : user_id
+    },
+  }).done(function(data) {
+    if(data !== "false") {
+      setFollowerCount(JSON.parse(data));
+    }
   }).fail(function(data) {
 
   });
@@ -143,4 +160,19 @@ function action_bar_setIcon(data) {
   const profile_button = document.getElementById("profile_button");
   profile_button.appendChild(style);
 }
+
+function setFollowCount(data) {
+  const u_follow = document.getElementById("u_follow");
+  u_follow.innerHTML = data.follow;
+}
+
+function setFollowerCount(data) {
+  const u_follower = document.getElementById("u_follower");
+  u_follower.innerHTML = data.follower;
+}
+
+function backHome() {
+  location.href = "<?php echo h(SITE_URL . "/View/Main/home.php") ?>";
+}
+
 </script>

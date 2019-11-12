@@ -2,11 +2,9 @@
 require_once(__DIR__ . "/../../Lib/config.php");
 
 isLogin();
-
 isSetCookie("user_id");
 
-require_once("../../Asset/js/main_js.php");
-require_once("../../Asset/js/profile_js.php");
+require_once("../../Asset/js/user_profile_js.php");
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +21,7 @@ require_once("../../Asset/js/profile_js.php");
   <div id="container">
 
     <div class="icon">
-      <i class="fab fa-twitter fa-2x home_icon"></i>
+      <i class="fab fa-twitter fa-2x home_icon" onclick="backHome()"></i>
     </div>
 
     <div class="title">
@@ -75,12 +73,13 @@ require_once("../../Asset/js/profile_js.php");
         </div>
 
         <div class="u_follow">
-          <p id="u_follow"></p>フォロー
-          <p id="u_follower"></p>フォロワー
+          <p id="u_follow">0</p>フォロー中
+          <p id="u_follower">0</p>フォロワー
         </div>
       </div>
 
-      <button　type="button" class="interact_button" id="follow_button">フォローする</button>
+      <div id="intaract_button">
+      </div>
     </div>
 
     <div class="post_list">
@@ -98,15 +97,7 @@ require_once("../../Asset/js/profile_js.php");
     const token = "<?php echo h($_SESSION['token']); ?>";
     const user_id = "<?php echo h($_COOKIE['user_id']); ?>";
 
-    setActionBarIcon(token);
-    getUserProfile(token, user_id);
-    getSelfTweets(token, user_id);
-
-    const follow_button = document.getElementById("follow_button");
-    follow_button.addEventListener("click", function() {
-      followUser(token, user_id);
-    });
-
+    moduleCall(token, user_id);
   </script>
 
 </body>

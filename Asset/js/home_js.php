@@ -1,10 +1,30 @@
 <?php
 require_once(__DIR__ . "/../../Lib/config.php");
+require_once(__DIR__ . "/main_js.php");
 
  ?>
 
 <script>
 'use strict'
+
+function getAllPost(token) {
+  $.ajax( {
+    url : "../../Controller/Main/Main_Accept.php",
+    type : "POST",
+    data : {
+      token : token,
+      id : <?php echo h(REQUEST_GET_ALL_POST); ?>
+    },
+  }).done(function(data) {
+
+    if(data !== "[]") {
+      reloadPosts(JSON.parse(data));
+    }
+
+  }).fail(function(data) {
+
+  });
+}
 
 function sendPost(token, text) {
   $.ajax( {

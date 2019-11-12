@@ -21,7 +21,7 @@ require_once("../../Asset/js/home_js.php");
   <div id="container">
 
     <div class="icon">
-      <i class="fab fa-twitter fa-2x home_icon"></i>
+      <i class="fab fa-twitter fa-2x home_icon" onclick="backHome()"></i>
     </div>
 
     <div class="title">
