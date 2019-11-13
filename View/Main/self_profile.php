@@ -131,10 +131,9 @@ require_once("../../Asset/js/self_profile_js.php");
   </div>
 
   <script>
-    const token = "<?php echo h($_SESSION['token']); ?>";
-    const user_id = <?php echo h($_SESSION["user_id"]); ?>;
 
-    moduleCall(token, user_id);
+    moduleCall();
+
   </script>
 
 </body>

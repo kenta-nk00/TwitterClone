@@ -36,9 +36,9 @@ function getFollow(token, user_id) {
       user_id : user_id
     },
   }).done(function(data) {
-    if(data !== "false") {
-      setFollowCount(JSON.parse(data));
-    }
+
+    setFollowCount(JSON.parse(data));
+
   }).fail(function(data) {
 
   });
@@ -54,9 +54,9 @@ function getFollower(token, user_id) {
       user_id : user_id
     },
   }).done(function(data) {
-    if(data !== "false") {
-      setFollowerCount(JSON.parse(data));
-    }
+
+    setFollowerCount(JSON.parse(data));
+
   }).fail(function(data) {
 
   });
@@ -117,6 +117,10 @@ function reloadPosts(posts) {
     post_name_p.setAttribute("data-user_id", posts[i].u_id);
     post_name_p.innerHTML = posts[i].u_name;
 
+    const post_time_p = document.createElement("p");
+    post_time_p.setAttribute("class", "post_time_p");
+    post_time_p.innerHTML = posts[i].p_date;
+
     const post_text = document.createElement("div");
     post_text.setAttribute("class", "post_text");
     post_text.innerHTML = posts[i].p_text;
@@ -124,10 +128,25 @@ function reloadPosts(posts) {
     const post_footer = document.createElement("div");
     post_footer.setAttribute("class", "post_footer");
 
+    const comment_button = document.createElement("button");
+    comment_button.setAttribute("class", "comment_button");
+
+    const retweet_button = document.createElement("button");
+    retweet_button.setAttribute("class", "retweet_button");
+
+    const good_button = document.createElement("button");
+    good_button.setAttribute("class", "good_button");
+
     post_name.appendChild(post_name_p);
+    post_name.appendChild(post_time_p);
     post_frame.appendChild(post_icon);
+
     post_frame.appendChild(post_name);
     post_frame.appendChild(post_text);
+
+    post_footer.appendChild(comment_button);
+    post_footer.appendChild(retweet_button);
+    post_footer.appendChild(good_button);
     post_frame.appendChild(post_footer);
 
     post_root_ul.appendChild(post_frame);
@@ -163,12 +182,22 @@ function action_bar_setIcon(data) {
 
 function setFollowCount(data) {
   const u_follow = document.getElementById("u_follow");
-  u_follow.innerHTML = data.follow;
+
+  if(data) {
+    u_follow.innerHTML = data.follow;
+  } else {
+    u_follow.innerHTML = "0";
+  }
 }
 
 function setFollowerCount(data) {
   const u_follower = document.getElementById("u_follower");
-  u_follower.innerHTML = data.follower;
+
+  if(data) {
+    u_follower.innerHTML = data.follower;
+  } else {
+    u_follower.innerHTML = "0";
+  }
 }
 
 function backHome() {

@@ -120,7 +120,7 @@ body {
 .post_frame {
   display: grid;
   width: 100%;
-  grid-template-rows: 20px 1fr 20px;
+  grid-template-rows: 20px 1fr 40px;
   grid-template-columns: 50px 5fr;
   border-bottom: 1px solid #eee;
   margin-bottom: 5px;
@@ -143,12 +143,20 @@ body {
 .post_name {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
+  display: flex;
+  align-items: center;
 }
 
 .post_name_p {
-  margin: 0px 0px 0px 10px;
+  margin-left: 10px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.post_time_p {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #aaa;
 }
 
 .post_name_p:hover {
@@ -165,12 +173,73 @@ body {
 }
 
 .post_footer {
+  width: 100%;
   grid-row: 3 / 4;
   grid-column: 2 / 3;
   display: grid;
-  width: 100%;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.comment_button {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+}
+
+.comment_button {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 10px;
+  border: none;
+  padding: 0;
+  background: #fff;
+}
+
+.comment_button:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  font-size: 14px;
+  content: "\f075";
+  color: #999;
+}
+
+.retweet_button {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  background: #fff;
+}
+
+.retweet_button:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 14px;
+  content: "\f079";
+  color: #999;
+}
+
+.good_button {
+  grid-row: 1 / 2;
+  grid-column: 3 / 4;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  background: #fff;
+}
+
+.good_button:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  font-size: 14px;
+  content: "\f004";
+  color: #999;
 }
 
 .recommend {

@@ -76,6 +76,8 @@ function addFollow(token, user_id) {
     const user_id = "<?php echo h($_COOKIE['user_id']); ?>";
 
     isFollow(token, user_id);
+    getFollow(token, user_id);
+    getFollower(token, user_id);
 
   }).fail(function(data) {
 
@@ -102,6 +104,9 @@ function removeFollow(token, user_id) {
     const user_id = "<?php echo h($_COOKIE['user_id']); ?>";
 
     isFollow(token, user_id);
+    getFollow(token, user_id);
+    getFollower(token, user_id);
+    
   }).fail(function(data) {
 
   });

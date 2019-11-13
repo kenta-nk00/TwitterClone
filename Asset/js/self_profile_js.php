@@ -7,7 +7,10 @@ require_once(__DIR__ . "/main_js.php");
 <script>
 'use strict'
 
-function moduleCall(token, user_id) {
+function moduleCall() {
+  const token = "<?php echo h($_SESSION['token']); ?>";
+  const user_id = <?php echo h($_SESSION["user_id"]); ?>;
+
   setActionBarIcon(token);
   getSelfProfile(token, user_id);
   getSelfTweets(token, user_id);
